@@ -18,6 +18,9 @@ public class ProductService {
     }
 
     public ProductCreateRessponse createProduct(Product product) {
+        if(product.getName() == null){
+            throw new RuntimeException("name can't be null");
+        }
         product.setId(products.size()+1);
         products.add(product);
         ProductCreateRessponse ressponse = new ProductCreateRessponse();
@@ -27,7 +30,7 @@ public class ProductService {
     }
 
     public Product getProductById(int id) {
-        return products.stream().filter(product -> product.getId() == id).findFirst().get();
+        return products.stream().filter(product -> product.getId() == id).findFirst().orElseThrow();
     }
 
     public List<Product> getProductsByName(String name) {
@@ -35,6 +38,11 @@ public class ProductService {
     }
 
     public String deleteProduct(int id) {
+        try {
+            Thread.sleep(800);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         products.remove(getProductById(id));
         return "Product deleted";
     }
