@@ -45,17 +45,24 @@ public class ProductClientService {
     }
 
     public ProductClientCreateRessponse createProduct(Product product) {
-        return productWebClient.post()
+        if (product.getId() <= 0 || product.getName() == null || product.getName().isEmpty() || product.getPrice() <= 0) {
+            throw new IllegalArgumentException("Invalid product data. Please provide valid product information.");
+        }
 
+        return productWebClient.post()
                 .uri("/product")
                 .body(BodyInserters.fromValue(product))
                 .exchangeToMono(clientResponse -> {
                     if(clientResponse.statusCode().is2xxSuccessful()){
                         log.info("got success resonse..");
                         return clientResponse.bodyToMono(ProductClientCreateRessponse.class);
-                    }else{
-                        log.error("erorr occured while creating product..");
-                        return Mono.error(new RuntimeException("some exception.."));
+                    } else if (clientResponse.statusCode().is4xxClientError()) {
+                        log.error("Client error while creating product {}", clientResponse.bodyToMono(String.class).block());
+                        return clientResponse.bodyToMono(String.class)
+                                .flatMap(errorBody -> Mono.error(new MyServiceException("Client error: " + errorBody)));
+                    } else {
+                        log.error("Error occurred while creating product: {}", clientResponse.bodyToMono(String.class).block());
+                        return Mono.error(new MyServiceException("Error occurred while creating product"));
                     }
                 })
                 .block();
