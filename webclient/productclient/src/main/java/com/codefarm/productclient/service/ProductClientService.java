@@ -29,18 +29,18 @@ public class ProductClientService {
 
     public ProductClientService(WebClient.Builder webclientBuilder) {
         productWebClient = webclientBuilder.baseUrl("http://localhost:8081")
-                .filter((request, next) -> {
-                    log.info("request method {}, url - {}", request.method(), request.url());
-                    Mono<ClientResponse> response = next.exchange(request);
-                    log.info("response - {}", response.block().statusCode());
-                    return response;
-                })
-                .filter(((request, next) -> {
-                    log.info("request1 method {}, url - {}", request.method(), request.url());
-                    Mono<ClientResponse> response = next.exchange(request);
-                    log.info("response1 - {}", response.block().statusCode());
-                    return response;
-                }))
+//                .filter((request, next) -> {
+//                    log.info("request method {}, url - {}", request.method(), request.url());
+//                    Mono<ClientResponse> response = next.exchange(request);
+//                    log.info("response - {}", response.block().statusCode());
+//                    return response;
+//                })
+//                .filter(((request, next) -> {
+//                    log.info("request1 method {}, url - {}", request.method(), request.url());
+//                    Mono<ClientResponse> response = next.exchange(request);
+//                    log.info("response1 - {}", response.block().statusCode());
+//                    return response;
+//                }))
                 .build();
     }
 

@@ -20,6 +20,14 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'
+	testImplementation 'com.github.tomakehurst:wiremock-jre8-standalone:3.0.1'
+
+//	testImplementation 'com.github.tomakehurst:wiremock-jre8:2.31.0'
+//	testImplementation 'com.github.tomakehurst:wiremock-jre17:2.33.0'
+//	testImplementation 'javax.servlet:javax.servlet-api:4.0.1'
+//	testImplementation 'com.squareup.okhttp3:mockwebserver:4.10.0'
+
+
 }
 
 tasks.named('test') {
