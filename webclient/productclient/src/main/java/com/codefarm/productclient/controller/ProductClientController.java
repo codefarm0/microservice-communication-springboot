@@ -17,7 +17,7 @@ public class ProductClientController {
     }
 
     @PostMapping("")
-    ProductClientCreateRessponse createProduct(@RequestBody Product product){
+    public ProductClientCreateRessponse createProduct(@RequestBody Product product){
         return productClientService.createProduct(product);
     }
     @PutMapping("")
